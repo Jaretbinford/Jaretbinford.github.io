@@ -9,4 +9,4 @@ Running through the Datomic docs, resources, and various "getting started" mater
 ![_config.yml]({{ site.baseurl }}/images/getting-started.png)
 
 
-In this section I am going to look at the following tutorials and cover a basic introduction of the topic.
+Test. In this section I am going to look at the following tutorials and cover a basic introduction of the topic.
