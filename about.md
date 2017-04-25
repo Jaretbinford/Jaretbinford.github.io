@@ -4,12 +4,12 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
+Married, dog named Tig, customer support guy, returned Peace Corps Volunteer, game enthusiast, and lover of ants.
 
-### More Information
+### Disclaimer
 
-A place to include any other types of information that you'd like to include about yourself.
+This is a personal blog. The opinions expressed here represent my own and not those of my employer.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[jaretbinford@gmail.com](mailto:jaretbinford@gmail.com)
