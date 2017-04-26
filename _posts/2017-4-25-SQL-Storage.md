@@ -8,6 +8,10 @@ categories: datomic
 In responding to a recent [Stack Overflow question](http://stackoverflow.com/questions/43422828/datomic-pro-bin-run-no-suitable-driver-found/43615059#43615059), 
  I found that the basic steps have not been spelled out sufficiently.  While we have [this section of the documentation](http://docs.datomic.com/storage.html#sec-5), the steps are not clear for setting up SQL based storage and deving on your local machine.
 
+<center>
+<img src="/images/mysql.jpg" alt="MySQL logo" style="width: 200px;" align="bottom"/>
+<img src="/images/postgresql.png" alt="Postgresql logo" style="width: 200px;" align="top"/>
+</center>
 ----
 
 ## Setup the SQL database (create the table and users)
