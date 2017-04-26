@@ -8,11 +8,12 @@ categories: datomic
 In responding to a recent [Stack Overflow question](http://stackoverflow.com/questions/43422828/datomic-pro-bin-run-no-suitable-driver-found/43615059#43615059), 
  I found that the basic steps have not been spelled out sufficiently.  While we have [this section of the documentation](http://docs.datomic.com/storage.html#sec-5), the steps are not clear for setting up SQL based storage and deving on your local machine.
 
----
-Setup the SQL database (create the table and users)
----
+----
 
->Postgres:
+## Setup the SQL database (create the table and users)
+
+
+#### Postgres:
 
 {% highlight bash %}
 
@@ -22,7 +23,7 @@ psql -f bin/sql/postgres-user.sql -U postgres -d datomic
 
 {% endhighlight %}
 
->MySQL:
+#### MySQL:
 
 {% highlight bash %}
 
@@ -32,17 +33,17 @@ mysql -u root < bin/sql/mysql-user.sql
 
 {% endhighlight %}
 
----
-Start the transactor
----
+----
+## Start the transactor
 
->Command:
+
+#### Command:
 
 {% highlight bash %}
 bin/transactor config/samples/sql-transactor-template.properties 
 {% endhighlight %}
 
->Postgres properties file:
+#### Postgres properties file:
 
 {% highlight vim %}
 protocol=sql
@@ -55,7 +56,7 @@ sql-driver-class=org.postgresql.Driver
 {% endhighlight %}
 
 
->MySQL properties file:
+#### MySQL properties file:
 
 {% highlight vim %}
 protocol=sql
@@ -64,3 +65,31 @@ sql-user=datomic
 sql-password=datomic
 sql-driver-class=com.mysql.jdbc.Driver
 {% endhighlight %}
+
+----
+
+With the addition of the Client library in _0.9.5530_ you can start a peer server to serve access to databases for the client library.  If you're going to do so on SQL storage you'll need to ensure the database is created before passing in the following commands.  To do so launch a peer against the transactor and run the following:
+
+#### MySQL:
+
+{% highlight clojure %}
+(require '[datomic.api :as d])
+(def uri "datomic:sql://test?jdbc:mysql://localhost:3306/datomic?user=datomic&password=datomic")
+(d/create-database uri)
+{% endhighlight %}
+
+#### Postgres
+
+{% highlight clojure %}
+(require '[datomic.api :as d])
+(def uri "datomic:sql://test?jdbc:postgresql://localhost:3306/datomic?user=datomic&password=datomic")
+(d/create-database uri)
+{% endhighlight %} 
+
+Now that you have your database created you can pass in the "test" db name to the peer server connection string:
+
+{% highlight bash %}
+./bin/run -m datomic.peer-server -h localhost -p 8998 -a myaccesskey,mysecret -d demo,"datomic:sql://test?jdbc:mysql://localhost:3306/datomic?user=datomic&password=datomic"
+{% endhighlight %}
+
+>>Please note that when launching your peer-server you'll need to ensure you have the proper credentials (username and password).
