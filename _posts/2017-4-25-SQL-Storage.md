@@ -99,3 +99,8 @@ Now that you have your database created you can pass in the "test" db name to th
 {% endhighlight %}
 
 >Please note that when launching your peer-server, you'll need to ensure you have the proper credentials (username and password) as configured in MySQL or PostgreSQL.
+
+Let me know if you have any questions on setting up MySQL or PostgreSQL as your underlying storage for Datomic.
+
+Cheers,
+Jaret
