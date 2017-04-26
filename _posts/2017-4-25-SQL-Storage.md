@@ -6,13 +6,15 @@ categories: datomic
 ---
 
 In responding to a recent [Stack Overflow question](http://stackoverflow.com/questions/43422828/datomic-pro-bin-run-no-suitable-driver-found/43615059#43615059), 
- I ran into a few hitches getting MySQL and PostgreSQL working as backend storages.  As a reference I followed [this section of the documentation](http://docs.datomic.com/storage.html#sec-5), to setup MySQL and PostgreSQL storage.
+ I ran into a few hitches getting MySQL and PostgreSQL working as backend storages.  As a reference, I followed [this section of the documentation](http://docs.datomic.com/storage.html#sec-5), to setup MySQL and PostgreSQL storage.
 
 <center>
 <img src="/images/mysql.jpg" alt="MySQL logo" style="width: 200px;" align="bottom"/>
 <img src="/images/postgresql.png" alt="Postgresql logo" style="width: 200px;" align="top"/>
 </center>
 ----
+
+These snippits assume that you have Postgres and MySQL installed and that you are operating from the _Datomic root directory_ on your local machine.  
 
 ## Setup the SQL database (create the table and users)
 
@@ -72,7 +74,7 @@ sql-driver-class=com.mysql.jdbc.Driver
 
 ----
 
-With the addition of the Client library in _0.9.5530_ you can start a peer server to serve access to databases for the client library.  If you're going to do so on SQL storage you'll need to ensure the database is created before passing in the following commands.  To do so launch a peer against the transactor and run the following:
+With the addition of the Client library in _0.9.5530_ you can start a peer server to serve access to databases for the client library.  If you're going to do so on SQL storage you'll need to ensure the database is created before standing up the peer-server.  To do so launch a peer against the transactor (in this case I ran _bin/repl_ from the _Datomic root directory_ and run the following:
 
 #### MySQL:
 
@@ -96,4 +98,4 @@ Now that you have your database created you can pass in the "test" db name to th
 ./bin/run -m datomic.peer-server -h localhost -p 8998 -a myaccesskey,mysecret -d demo,"datomic:sql://test?jdbc:mysql://localhost:3306/datomic?user=datomic&password=datomic"
 {% endhighlight %}
 
->>Please note that when launching your peer-server you'll need to ensure you have the proper credentials (username and password).
+>Please note that when launching your peer-server, you'll need to ensure you have the proper credentials (username and password) as configured in MySQL or PostgreSQL.
