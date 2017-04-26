@@ -66,6 +66,8 @@ sql-driver-class=org.postgresql.Driver
 
 {% highlight vim %}
 protocol=sql
+host=localhost
+port=4334
 sql-url=jdbc:mysql://localhost:3306/datomic
 sql-user=datomic
 sql-password=datomic
@@ -103,4 +105,5 @@ Now that you have your database created you can pass in the "test" db name to th
 Let me know if you have any questions on setting up MySQL or PostgreSQL as your underlying storage for Datomic.
 
 Cheers,
+
 Jaret
