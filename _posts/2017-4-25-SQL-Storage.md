@@ -38,11 +38,29 @@ Start the transactor
 
 >Command:
 
-{ % highlight bash %}
+{% highlight bash %}
 bin/transactor config/samples/sql-transactor-template.properties 
-{ % endhighlight %}
+{% endhighlight %}
 
 >Postgres properties file:
 
+{% highlight vim %}
+protocol=sql
+host=localhost
+port=4334
+sql-url=jdbc:postgresql://localhost:3306/datomic
+sql-user=datomic
+sql-password=datomic
+sql-driver-class=org.postgresql.Driver
+{% endhighlight %}
+
 
 >MySQL properties file:
+
+{% highlight vim %}
+protocol=sql
+sql-url=jdbc:mysql://localhost:3306/datomic
+sql-user=datomic
+sql-password=datomic
+sql-driver-class=com.mysql.jdbc.Driver
+{% endhighlight %}
