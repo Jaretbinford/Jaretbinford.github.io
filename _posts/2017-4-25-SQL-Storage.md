@@ -78,7 +78,7 @@ sql-driver-class=com.mysql.jdbc.Driver
 
 With the addition of the Client library in _0.9.5530_ you can start a peer server to serve access to databases for the client library.
   If you're going to do so on SQL storage you'll need to ensure the database is created before standing up the peer-server.
-    To do so launch a peer against the transactor (in this case, I executed _bin/repl_ from the _Datomic root directory_) and run the following:
+    To do so, launch a peer against the transactor (in this case, I executed _bin/repl_ from the _Datomic root directory_) and run the following:
 
 #### MySQL:
 
