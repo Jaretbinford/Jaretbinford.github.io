@@ -15,5 +15,6 @@ One day, I plan to go through each of these links and blog about it.  That day i
 * [Day of Datomic training videos](http://www.datomic.com/training.html)
 - [ftraver's Datomic Tutorial](https://github.com/ftravers/datomic-tutorial)
 - [Learn Datalog Today](http://www.learndatalogtoday.org/)
+- [Conversations with Datomic](http://gigasquidsoftware.com/blog/2015/08/15/conversations-with-datomic/)
 * more..
 
