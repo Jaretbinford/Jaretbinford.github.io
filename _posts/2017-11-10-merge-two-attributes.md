@@ -1,7 +1,7 @@
 ---
 layout: post
 comments: true
-title: Merge Two attributes
+title: merge two attributes
 ---
 
 Our database has recorded two attributes for a user.  The user's e-mail and the users username.
