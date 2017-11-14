@@ -24,6 +24,12 @@ The steps to this process are as follows:
 
 Please see Stu Halloways blog post http://blog.datomic.com/2017/01/the-ten-rules-of-schema-growth.html
 
+## Show me how to merge babay
+
+<center>
+<img src="/images/merge.png" alt="mergebaby" style="width: 200px;" align="bottom"/>
+</center>
+
 {% highlight clojure %}
       (ns merge.core
        (:import datomic.Util)
