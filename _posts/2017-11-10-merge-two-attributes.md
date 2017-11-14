@@ -6,27 +6,25 @@ categories: datomic
 ---
 
 
-## Let's pretend...
-
-Our database has recorded two attributes for a user.  The user's e-mail and the users username.
+Let's pretend our database has recorded two attributes for a user.  The user's e-mail and the users username.
 The username is required to be the e-mail for the user.  Due to a design decision, e-mails will no longer
 be recorded.  As such we need to depricate the e-mail attribute and merge it to our username attribute to ensure
 all e-mails represent usernames.
 
 The steps to this process are as follows:
 
- 1. Rename the old attribute (i.e. :user/email to :user/email-deprecated)
-  2. Make the new attribute (:user/username)
-   3. Migrate values from the old attribute to the new attribute
+1. Rename the old attribute (i.e. :user/email to :user/email-deprecated)
+2. Make the new attribute (:user/username)
+3. Migrate values from the old attribute to the new attribute
 
    It should be noted that if you have a lot of data to merge you will want to appropriately batch the
    merge transactions.  This is also not a solution for bad schema design and it should not be relied upon
    to correct what are in reality schema design problems.  d/history will still point to the previous entry
     and :db/ident is not t-aware.
 
-     Please see Stu's blog post http://blog.datomic.com/2017/01/the-ten-rules-of-schema-growth.html
+Please see Stu Halloways blog post http://blog.datomic.com/2017/01/the-ten-rules-of-schema-growth.html
 
- {% highlight clojure %}
+{% highlight clojure %}
       (ns merge.core
        (:import datomic.Util)
          (require [datomic.api :as d]
@@ -35,10 +33,9 @@ The steps to this process are as follows:
      (def db-uri "datomic:dev://localhost:4334/merge")
      (d/create-database db-uri)
      (def conn (d/connect db-uri))
- {% endhighlight %}
+{% endhighlight %}
 
-
-     slurp in the schema.edn file which contains:
+slurp in the schema.edn file which contains:
 
 {% highlight clojure %}
      ; [{:db/ident :user/email,
@@ -58,15 +55,14 @@ The steps to this process are as follows:
      @(d/transact conn schema-tx)
 {% endhighlight %}
 
-     Pull the attributes I have inserted.
+Pull the attributes I have inserted.
 
 {% highlight clojure %}
      (d/pull (d/db conn) '[*] 250)
      (d/pull (d/db conn) '[*] 251)
 {% endhighlight %}
 
-     Transact some data against e-mails and usernames.  We will then merge this data.
-     Here are the contents of Data.edn which will be slurped
+Transact some data against e-mails and usernames.  We will then merge this data. Here are the contents of Data.edn which will be slurped
 
 {% highlight clojure %}
      ;;[{:db/id #db/id[:db.part/user -1000001], :user/email "user1@gmail.com"}
@@ -124,9 +120,12 @@ The steps to this process are as follows:
             :where [?e :user/username ?email]] (d/db conn))
 {% endhighlight %}
 
+And there you have it, you've merged all the usernames under one attribute!!!!
 
-     This process can be applied when needing to implement :db/fulltext. But instead of altering existing
-     schema we need to add a new attribute and transact with fulltext enabled.  We will then want to pour in/import our data and use the new attribute going forward
+## Fulltext happens
+
+This process can be applied when needing to implement :db/fulltext. But instead of altering existing
+schema we need to add a new attribute and transact with fulltext enabled.  We will then want to pour in/import our data and use the new attribute going forward
 
 {% highlight clojure %}
      ;;Create the new username with fulltext attribute
@@ -165,6 +164,8 @@ The steps to this process are as follows:
      (def db (d/db conn) )
      (d/q '[:find ?e ?email
             :where [?e :user/usernamefulltext ?email]] (d/db conn))
+
+
 {% endhighlight %}
 
 
