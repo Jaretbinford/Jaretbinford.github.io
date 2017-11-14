@@ -1,8 +1,12 @@
 ---
 layout: post
 comments: true
-title: merge two attributes
+title: Merge two attributes
+categories: datomic
 ---
+
+----
+##Let's pretend
 
 Our database has recorded two attributes for a user.  The user's e-mail and the users username.
 The username is required to be the e-mail for the user.  Due to a design decision, e-mails will no longer
@@ -22,8 +26,8 @@ The steps to this process are as follows:
 
      Please see Stu's blog post http://blog.datomic.com/2017/01/the-ten-rules-of-schema-growth.html
 
-     {% highlight clojure %}
-     (ns merge.core
+ {% highlight clojure %}
+      (ns merge.core
        (:import datomic.Util)
          (require [datomic.api :as d]
                     [clojure.java.io :as io]))
@@ -32,12 +36,12 @@ The steps to this process are as follows:
      (def db-uri "datomic:dev://localhost:4334/merge")
      (d/create-database db-uri)
      (def conn (d/connect db-uri))
-     {% endhighlight %}
+ {% endhighlight %}
 
 
      slurp in the schema.edn file which contains:
 
-     {% highlight clojure %}
+{% highlight clojure %}
      ; [{:db/ident :user/email,
      ; :db/valueType :db.type/string,
      ; :db/cardinality :db.cardinality/one,
@@ -53,19 +57,19 @@ The steps to this process are as follows:
 
      (def schema-tx (read-string (slurp "/Users/jbin/Desktop/Jaret/Projects/workproof/merge/resources/schema.edn")))
      @(d/transact conn schema-tx)
-     {% endhighlight %}
+{% endhighlight %}
 
      Pull the attributes I have inserted.
 
-     {% highlight clojure %}
+{% highlight clojure %}
      (d/pull (d/db conn) '[*] 250)
      (d/pull (d/db conn) '[*] 251)
-     {% endhighlight %}
+{% endhighlight %}
 
      Transact some data against e-mails and usernames.  We will then merge this data.
      Here are the contents of Data.edn which will be slurped
 
-     {% highlight clojure %}
+{% highlight clojure %}
      ;;[{:db/id #db/id[:db.part/user -1000001], :user/email "user1@gmail.com"}
      ;; {:db/id #db/id[:db.part/user -1000002], :user/username "JBIN0204"}
      ;; {:db/id #db/id[:db.part/user -1000003], :user/email "user2@gmail.com"}
@@ -78,17 +82,18 @@ The steps to this process are as follows:
 
      (def test-data-tx (read-string (slurp "/Users/jbin/Desktop/Jaret/Projects/workproof/merge/resources/Data.edn")))
      @(d/transact conn test-data-tx)
-     {% endhighlight %}
+{% endhighlight %}
 
+{% highlight clojure %}
      ;;create alter email-depricated
      (def db (d/db conn))
      (def schema [{:db/id #db/id [:db.part/db 250],
                    :db/ident :user/email-deprecated,
                                  :db.alter/_attribute :db.part/db}])
      @(d/transact conn schema)
-     {% endhighlight %}
+{% endhighlight %}
 
-     {% highlight clojure %}
+{% highlight clojure %}
      ;;query all the emails and IDs
      (d/q '[:find ?e ?email
                :where [?e :user/email-deprecated ?email]] (d/db conn))
@@ -118,13 +123,13 @@ The steps to this process are as follows:
      (def db (d/db conn) )
      (d/q '[:find ?e ?email
             :where [?e :user/username ?email]] (d/db conn))
-     {% endhighlight %}
+{% endhighlight %}
 
 
      This process can be applied when needing to implement :db/fulltext. But instead of altering existing
      schema we need to add a new attribute and transact with fulltext enabled.  We will then want to pour in/import our data and use the new attribute going forward
 
-     {% highlight clojure %}
+{% highlight clojure %}
      ;;Create the new username with fulltext attribute
      (def db (d/db conn))
      (def schema [{:db/ident :user/usernamefulltext,
@@ -161,6 +166,11 @@ The steps to this process are as follows:
      (def db (d/db conn) )
      (d/q '[:find ?e ?email
             :where [?e :user/usernamefulltext ?email]] (d/db conn))
-     {% endhighlight %}
+{% endhighlight %}
+
+
+Cheers,
+
+Jaret
 
 
