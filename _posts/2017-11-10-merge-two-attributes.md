@@ -5,8 +5,8 @@ title: Merge two attributes
 categories: datomic
 ---
 
-----
-##Let's pretend
+
+## Let's pretend...
 
 Our database has recorded two attributes for a user.  The user's e-mail and the users username.
 The username is required to be the e-mail for the user.  Due to a design decision, e-mails will no longer
@@ -31,7 +31,6 @@ The steps to this process are as follows:
        (:import datomic.Util)
          (require [datomic.api :as d]
                     [clojure.java.io :as io]))
-
      ;;Create the DB
      (def db-uri "datomic:dev://localhost:4334/merge")
      (d/create-database db-uri)
